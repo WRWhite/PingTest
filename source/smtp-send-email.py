@@ -1,14 +1,22 @@
 import smtplib
 from email.mime.text import MIMEText
+from datetime import date
 
-subject = "Email Subject"
-body = "This is the body of the text message"
+email_file = open('email-msg.txt','r')
+
+today = date.today()
+
+subject = f"Ping Test {today}"
+#body = "This is the body of the text message"
+body = email_file.read()
 sender = "william.white.directinsight@googlemail.com"
-recipients = ["william.white@directinsight.co.uk", "support@directinsight.co.uk"]
+#recipients = ["william.white@directinsight.co.uk", "support@directinsight.co.uk"]
+recipients = ["william.white@directinsight.co.uk"]
 password = "qwekflvtxxzwmwsg"
 
 
-def send_email(subject, body, sender, recipients, password):
+
+def send_email(subject, body, sender, recipients, password,):
     msg = MIMEText(body)
     msg['Subject'] = subject
     msg['From'] = sender

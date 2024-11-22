@@ -3,6 +3,11 @@ from subprocess import Popen, PIPE
 
 def ping (host,ping_count):
 
+    results_file = open('ping-test-results.txt','w')
+    email_file = open('email-msg.txt','w')
+
+    sucess = 0
+    fail = 0
     for ip in host:
         data = ""
         output= Popen(f"ping {ip} -n {ping_count}", stdout=PIPE, encoding="utf-8")
@@ -12,12 +17,35 @@ def ping (host,ping_count):
             ping_test = findall("TTL", data)
 
         if ping_test:
-            print(f"{ip} : Successful Ping")
+            print(f"{ip} \t {host[ip]} \t\t : Successful Ping", file=results_file)
+            sucess +=1
         else:
-            print(f"{ip} : Failed Ping")
+            print(f"{ip} \t {host[ip]} \t\t : Failed Ping", file=results_file)
+            fail +=1
 
-nodes = ["192.168.16.10", "192.168.16.11", "192.168.16.12", "192.168.16.13", "192.168.16.20", "192.168.16.21", 
-         "192.168.16.31", "192.168.16.34", "192.168.16.35", "192.168.16.51", "192.168.16.52", "192.168.16.53",
-         "192.168.16.54", "192.168.16.55", "192.168.16.58", "192.168.16.59", "192.168.16.60"]
+    print(f"{fail} out of {sucess+fail} hosts failed to respond to ping", file=email_file )
+
+
+nodes = {"192.168.16.10" : "CRM-WW",
+         "192.168.16.11" : "CRM-NG", 
+         "192.168.16.12" : "CRM-SP",
+         "192.168.16.13" : "CRM-DP",
+         "192.168.16.14" : "CRM-BK",
+         "DUMMY1"         : "Dummy1",
+         "192.168.16.20" : "WiFi-Node1", 
+         "192.168.16.21" : "WiFi-Node2", 
+         "192.168.16.31" : "WS21-Scanner", 
+         "192.168.16.32" : "WS23-Win7-Suppoer",   
+         "192.168.16.34" : "WS27-DavidLangford", 
+         "192.168.16.35" : "WS28-William",
+         "192.168.16.51" : "Phone-PolyCom2",
+         "192.168.16.52" : "Phone-PolyCom3", 
+         "192.168.16.53" : "Phone-PolyCom4",
+         "DUMMY2"        : "Dummy2",
+         "192.168.16.54" : "Phone-PolyCom5", 
+         "192.168.16.55" : "Phone-PolyCom6", 
+         "192.168.16.58" : "DI-HOST", 
+         "192.168.16.59" : "DINAS", 
+         "192.168.16.60" : "DI-HOST2"}
 
 ping(nodes,3)
