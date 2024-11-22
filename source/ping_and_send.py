@@ -112,7 +112,7 @@ def main():
     body = email_file.read()
     subject = f"Ping Test {today} {status}"
     sender = "william.white.directinsight@googlemail.com"
-    recipients = ["william.white@directinsight.co.uk, nigel.goodyear@directinsight.co.uk, support@directinsight.co.uk"]
+    recipients = ["william.white@directinsight.co.uk", "nigel.goodyear@directinsight.co.uk", "support@directinsight.co.uk"]
     # Gmail application password:
     password = "qwekflvtxxzwmwsg"
 
