@@ -45,7 +45,10 @@ def ping (host: list, ping_count: int) -> str:
             print(f"{ip} \t {host[ip]} \t : Failed Ping")
             fail_cnt +=1
 
+    print(f"\nDate: {today}", file=results_file)
     print(f"{fail_cnt} out of {sucess_cnt+fail_cnt} hosts failed to respond to ping", file=email_file )
+    print(f"{today}", file=email_file)
+
 
     results_file.close()
     email_file.close()
@@ -81,9 +84,10 @@ def send_email(subject: str, body: str, sender: str, recipients: str, password: 
 
 
 
+today: date = date.today()
 def main():
 
-    today: date = date.today()
+    #today: date = date.today()
 
     nodes: dict = {
          "192.168.16.10" : "CRM-WW            ",
@@ -94,7 +98,7 @@ def main():
          "192.168.16.20" : "WiFi-Node1        ", 
          "192.168.16.21" : "WiFi-Node2        ", 
          "192.168.16.31" : "WS21-Scanne       ", 
-         "192.168.16.32" : "WS23-Win7-Suppoer ",   
+         "192.168.16.32" : "WS23-Win7-Support ",   
          "192.168.16.34" : "WS27-DavidLangford", 
          "192.168.16.35" : "WS28-William      ",
          "192.168.16.50" : "Phone-PolyCom1    ",
@@ -124,13 +128,18 @@ def main():
     email_file.close()
     subject: str = f"Ping Test {today} {status}"
     sender: str = "william.white.directinsight@googlemail.com"
-    #recipients: str = ["william.white@directinsight.co.uk"]
-    recipients: str = ["william.white@directinsight.co.uk", "nigel.goodyear@directinsight.co.uk", "support@directinsight.co.uk"]
+    recipients: str = ["william.white@directinsight.co.uk"]
+    #recipients: str = ["william.white@directinsight.co.uk", "nigel.goodyear@directinsight.co.uk", "support@directinsight.co.uk"]
     # Gmail application password:
     password: str = "qwekflvtxxzwmwsg"
 
     send_email(subject, body, sender, recipients, password)
 
+    # Delete files
+    if path.exists("email-msg.txt"):
+        remove("email-msg.txt")
+    if path.exists("ping-test-results.txt"):
+        remove("ping-test-results.txt")
 
 
 if __name__ == "__main__":
