@@ -26,8 +26,8 @@ def ping (host: list, ping_count: int) -> str:
     results_file = open('ping-test-results.txt','w')
     email_file = open('email-msg.txt','w')
 
-    sucess: int = 0
-    fail: int = 0
+    sucess_cnt: int = 0
+    fail_cnt: int = 0
     for ip in host:
         data: str = ""
         output: str = Popen(f"ping {ip} -n {ping_count}", stdout=PIPE, encoding="utf-8")
@@ -39,20 +39,20 @@ def ping (host: list, ping_count: int) -> str:
         if ping_test:
             print(f"{ip} \t {host[ip]} \t : Successful Ping", file=results_file)
             print(f"{ip} \t {host[ip]} \t : Successful Ping")
-            sucess +=1
+            sucess_cnt +=1
         else:
             print(f"{ip} \t {host[ip]} \t : Failed Ping", file=results_file)
             print(f"{ip} \t {host[ip]} \t : Failed Ping")
-            fail +=1
+            fail_cnt +=1
 
-    print(f"{fail} out of {sucess+fail} hosts failed to respond to ping", file=email_file )
+    print(f"{fail_cnt} out of {sucess_cnt+fail_cnt} hosts failed to respond to ping", file=email_file )
 
     results_file.close()
     email_file.close()
 
 
-    if fail > 0: 
-        return " ***** <PING TEST FAILED> <PING TEST FAILED> <PING TEST FAILED> *****"
+    if fail_cnt > 0: 
+        return " !!! ***** <PING TEST FAILED> <PING TEST FAILED> <PING TEST FAILED> ***** !!!"
     else:
         return " pass"
 
@@ -124,8 +124,8 @@ def main():
     email_file.close()
     subject: str = f"Ping Test {today} {status}"
     sender: str = "william.white.directinsight@googlemail.com"
-    recipients: str = ["william.white@directinsight.co.uk", "nigel.goodyear@directinsight.co.uk", "support@directinsight.co.uk"]
     #recipients: str = ["william.white@directinsight.co.uk"]
+    recipients: str = ["william.white@directinsight.co.uk", "nigel.goodyear@directinsight.co.uk", "support@directinsight.co.uk"]
     # Gmail application password:
     password: str = "qwekflvtxxzwmwsg"
 
