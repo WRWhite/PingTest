@@ -18,9 +18,11 @@ def ping (host,ping_count):
 
         if ping_test:
             print(f"{ip} \t {host[ip]} \t\t : Successful Ping", file=results_file)
+            print(f"{ip} \t {host[ip]} \t\t : Successful Ping")
             sucess +=1
         else:
             print(f"{ip} \t {host[ip]} \t\t : Failed Ping", file=results_file)
+            print(f"{ip} \t {host[ip]} \t\t : Failed Ping")
             fail +=1
 
     print(f"{fail} out of {sucess+fail} hosts failed to respond to ping", file=email_file )
