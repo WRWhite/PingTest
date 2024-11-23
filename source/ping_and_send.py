@@ -25,6 +25,7 @@ def ping (host: list[str], ping_count: int) -> str:
 
     results_file = open('ping-test-results.txt','w')
     email_file = open('email-msg.txt','w')
+    today: date = date.today()
 
     sucess_cnt: int = 0
     fail_cnt: int = 0
@@ -59,6 +60,7 @@ def ping (host: list[str], ping_count: int) -> str:
 
 
 def send_email(subject: str, body: str, sender: str, recipients: str, password: str,) -> None:
+
     msg: str = MIMEMultipart()
     msg['Subject'] = subject
     msg['From'] = sender
@@ -82,10 +84,8 @@ def send_email(subject: str, body: str, sender: str, recipients: str, password: 
 
 
 
-today: date = date.today()
+#today: date = date.today()
 def main():
-
-    #today: date = date.today()
 
     nodes: dict[str,str] = {
          "192.168.16.10" : "CRM-WW            ",
@@ -95,7 +95,7 @@ def main():
          "192.168.16.14" : "CRM-BK            ",
          "192.168.16.20" : "WiFi-Node1        ", 
          "192.168.16.21" : "WiFi-Node2        ", 
-         "192.168.16.31" : "WS21-Scanne       ", 
+         "192.168.16.31" : "WS21-Scanner      ", 
          "192.168.16.32" : "WS23-Win7-Support ",   
          "192.168.16.34" : "WS27-DavidLangford", 
          "192.168.16.35" : "WS28-William      ",
@@ -121,6 +121,7 @@ def main():
     status :str = ping(nodes,3)
 
     # Email ping results
+    today: date = date.today()
     email_file = open('email-msg.txt','r')
     body: str = email_file.read()
     email_file.close()
