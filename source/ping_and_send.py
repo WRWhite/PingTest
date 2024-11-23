@@ -21,7 +21,7 @@ from email import encoders
 from datetime import date
 from os import path, remove
 
-def ping (host: list, ping_count: int) -> str:
+def ping (host: list[str], ping_count: int) -> str:
 
     results_file = open('ping-test-results.txt','w')
     email_file = open('email-msg.txt','w')
@@ -49,15 +49,13 @@ def ping (host: list, ping_count: int) -> str:
     print(f"{fail_cnt} out of {sucess_cnt+fail_cnt} hosts failed to respond to ping", file=email_file )
     print(f"{today}", file=email_file)
 
-
     results_file.close()
     email_file.close()
 
-
     if fail_cnt > 0: 
-        return " !!! ***** <PING TEST FAILED> <PING TEST FAILED> <PING TEST FAILED> ***** !!!"
+        return (" !!! ***** <PING TEST FAILED> <PING TEST FAILED> <PING TEST FAILED> ***** !!!")
     else:
-        return " pass"
+        return (" pass")
 
 
 def send_email(subject: str, body: str, sender: str, recipients: str, password: str,) -> None:
@@ -89,7 +87,7 @@ def main():
 
     #today: date = date.today()
 
-    nodes: dict = {
+    nodes: dict[str,str] = {
          "192.168.16.10" : "CRM-WW            ",
          "192.168.16.11" : "CRM-NG            ", 
          "192.168.16.12" : "CRM-SP            ",
