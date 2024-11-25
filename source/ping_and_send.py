@@ -9,7 +9,7 @@
 # Modules for ping() function
 from re import findall
 from subprocess import Popen, PIPE
-quitfrom csv import reader
+from csv import reader
 
 # Modules for send_mail() function
 import smtplib
@@ -111,7 +111,7 @@ def main():
              #print(nodes
     else:
         print("ERROR:- Input file 'host_data.csv' does not exist")
-        return
+        return -1
 
     # The above code reads in a dictionary of the form
 #    nodes: dict[str,str] = {
