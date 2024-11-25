@@ -10,6 +10,7 @@
 192.168.16.34,WS27-DavidLangford 
 192.168.16.35,WS28-William       
 192.168.16.37,Windows10Pro-NPG
+dummy,dummy
 192.168.16.50,Phone-PolyCom1     
 192.168.16.51,Phone-PolyCom2     
 192.168.16.52,Phone-PolyCom3     
@@ -19,4 +20,4 @@
 192.168.16.58,DI-HOST            
 192.168.16.59,DINAS              
 192.168.16.60,DI-HOST2           
-008.008.08.08,Internet
+8.8.8.8,Internet
