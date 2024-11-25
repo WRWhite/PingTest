@@ -104,26 +104,26 @@ def main():
 
     nodes: dict[str,str] = {
          "192.168.16.10" : "CRM-WW             ",
-         "192.168.16.11" : "CRM-NG             ", 
-         "192.168.16.12" : "CRM-SP             ",
-         "192.168.16.13" : "CRM-DP             ",
-         "192.168.16.14" : "CRM-BK             ",
-         "192.168.16.20" : "WiFi-Node1         ", 
-         "192.168.16.21" : "WiFi-Node2         ", 
-         "192.168.16.31" : "WS21-Scanner       ", 
-         "192.168.16.32" : "WS23-Win7-Support  ",   
+       #  "192.168.16.11" : "CRM-NG             ", 
+       #  "192.168.16.12" : "CRM-SP             ",
+       #  "192.168.16.13" : "CRM-DP             ",
+       #  "192.168.16.14" : "CRM-BK             ",
+       #  "192.168.16.20" : "WiFi-Node1         ", 
+       #  "192.168.16.21" : "WiFi-Node2         ", 
+       #  "192.168.16.31" : "WS21-Scanner       ", 
+       #  "192.168.16.32" : "WS23-Win7-Support  ",   
          "192.168.16.34" : "WS27-DavidLangford ", 
        # "0.0.0.0      " : "Dummy host         ",         
          "192.168.16.35" : "WS28-William       ",
-         "192.168.16.50" : "Phone-PolyCom1     ",
-         "192.168.16.51" : "Phone-PolyCom2     ",
-         "192.168.16.52" : "Phone-PolyCom3     ", 
-         "192.168.16.53" : "Phone-PolyCom4     ",
-         "192.168.16.54" : "Phone-PolyCom5     ", 
-         "192.168.16.55" : "Phone-PolyCom6     ", 
-         "192.168.16.58" : "DI-HOST            ", 
-         "192.168.16.59" : "DINAS              ", 
-         "192.168.16.60" : "DI-HOST2           ",
+       #  "192.168.16.50" : "Phone-PolyCom1     ",
+       #  "192.168.16.51" : "Phone-PolyCom2     ",
+       #  "192.168.16.52" : "Phone-PolyCom3     ", 
+       #  "192.168.16.53" : "Phone-PolyCom4     ",
+       #  "192.168.16.54" : "Phone-PolyCom5     ", 
+       #  "192.168.16.55" : "Phone-PolyCom6     ", 
+       #  "192.168.16.58" : "DI-HOST            ", 
+       #  "192.168.16.59" : "DINAS              ", 
+       #  "192.168.16.60" : "DI-HOST2           ",
          "8.8.8.8      " : "Internet           "
          }
 
@@ -154,13 +154,13 @@ def main():
 
     send_email(subject, body, sender, recipients, password)
 
-    # Delete files
+    # Delete *email_file* but not the *results_file*
     if path.exists("email-msg.txt"):
         remove("email-msg.txt")
-    if path.exists("ping-test-results.txt"):
-        remove("ping-test-results.txt")
-    if path.exists("ping-test-results.csv"):
-        remove("ping-test-results.csv")
+    #if path.exists("ping-test-results.txt"):
+    #    remove("ping-test-results.txt")
+    #if path.exists("ping-test-results.csv"):
+    #    remove("ping-test-results.csv")
     
 
 
