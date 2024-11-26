@@ -146,16 +146,17 @@ def main():
     password: str = "qwekflvtxxzwmwsg"
     
     # Read in email recepients
-    if len(argv) >= 2 and argv[1] == "email-list" and path.exists("email-list.txt"):
+    if len(argv) >= 2 and (argv[1] == "email-list" or argv[1] == "email-list.txt") and path.exists("email-list.txt"):
+        print("Email from file email-list.txt")
         with open('email-list.txt', 'r') as email_recipient_list:
             email_reader = reader(email_recipient_list)
             recipients: str = {rows[0] for rows in email_reader}           
     else:
         # Default recipients if "email-list.txt" does not exist
+        print("Default email")
         recipients: str = ["william.white@directinsight.co.uk"]
         #recipients: str = ["william.white@directinsight.co.uk", "nigel.goodyear@directinsight.co.uk", "support@directinsight.co.uk"]
-        #recipients: str = ["william.white@directinsight.co.uk", "support@directinsight.co.uk"
-
+        
     # Print recipients:
     print(f"Sending report email to: {recipients}")
 
