@@ -4,7 +4,7 @@
 * Add the email recipients variable to an external file.  
 * Return error code <os._exit(status)>? to Windows task Task Scheduler if returns prematurely.  
 
-**v1.2**
+**v2.0**
 * Added host input data in external csv file.  
 * Added host imput data sample - host_data.csv.  
 * Added sample Windows Task Scheduler XML import file.
