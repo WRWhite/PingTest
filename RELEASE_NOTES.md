@@ -1,7 +1,8 @@
 # Release Notes  
 
 **NEXT**
-* Add the email recipients variable to an external file.  
+* Add the email recipients variable to an external file and pass as a command line argument.
+* If no email recipients file passed on command line PingTest runs but no emails sent
 * Return error code <os._exit(status)>? to Windows task Task Scheduler if returns prematurely.  
 
 **v2.0**

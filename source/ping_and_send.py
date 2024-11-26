@@ -117,7 +117,6 @@ def main():
 #    nodes: dict[str,str] = {
 #         "192.168.16.10" : "CRM-WW             ",
 #         "192.168.16.11" : "CRM-NG             ", 
-#         "192.168.16.60" : "DI-HOST2           ",
 #         "8.8.8.8      " : "Internet           "
 #         }
 
@@ -130,45 +129,40 @@ def main():
         remove("ping-test-results.csv")
 
     # Generate ping results
-    status :str = ping(nodes,3)
+    status_msg :str = ping(nodes,3)
 
-    # Email ping results
-    # timestamp: date = date.today()
-    timestamp: datetime = datetime.now()
-    #Email body:
-    email_file = open('email-msg.txt','r')
-    body: str = email_file.read()
-    email_file.close()
+    email_recipient_list_file_found: bool = False
+    if len(argv) >= 2:
+        email_recipient_list_file: str = argv[1]
+        if path.exists(email_recipient_list_file):
+            email_recipient_list_file_found: bool = True
+            print(f"Sending report email to distribution list in <{email_recipient_list_file}> ")
+            with open(email_recipient_list_file, 'r') as email_recipient_list:
+                email_reader = reader(email_recipient_list)
 
-    subject: str = f"Ping Test {status} {timestamp} "
-    # SMTP mail credentials:
-    sender: str = "william.white.directinsight@googlemail.com"
-    password: str = "qwekflvtxxzwmwsg"
-    
-    # Read in email recepients
-    if len(argv) >= 2 and (argv[1] == "email-list" or argv[1] == "email-list.txt") and path.exists("email-list.txt"):
-        print("Email from file email-list.txt")
-        with open('email-list.txt', 'r') as email_recipient_list:
-            email_reader = reader(email_recipient_list)
-            recipients: str = {rows[0] for rows in email_reader}           
-    else:
-        # Default recipients if "email-list.txt" does not exist
-        print("Default email")
-        recipients: str = ["william.white@directinsight.co.uk"]
-        #recipients: str = ["william.white@directinsight.co.uk", "nigel.goodyear@directinsight.co.uk", "support@directinsight.co.uk"]
-        
-    # Print recipients:
-    print(f"Sending report email to: {recipients}")
+                recipients: str = {rows[0] for rows in email_reader} 
+                print(f"Distribution list is: {recipients}")
+                email_file = open('email-msg.txt','r')
+                body: str = email_file.read()
+                email_file.close()
+                subject: str = f"Ping Test {status_msg} {datetime.now()}"
+                sender: str = "william.white.directinsight@googlemail.com"
+                password: str = "qwekflvtxxzwmwsg"
 
-    send_email(subject, body, sender,  password, recipients)
-
+                send_email(subject, body, sender,  password, recipients)
+        else:
+            email_recipient_list_file_found = False
+            print(f"Email recipient file <{email_recipient_list_file}> does not exist")
+            
+            
     # Delete *email_file* but not the *results_file*
     if path.exists("email-msg.txt"):
         remove("email-msg.txt")
-    #if path.exists("ping-test-results.txt"):
-    #    remove("ping-test-results.txt")
-    #if path.exists("ping-test-results.csv"):
-    #    remove("ping-test-results.csv")
+ 
+    # Return error code 1 if email recipient list file not found
+    if email_recipient_list_file_found == False:
+        exit(1)
+
     
 
 

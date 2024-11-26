@@ -13,17 +13,13 @@ Edit the host_data file and modify as required, the format is:
 ip-address,host-name 
 ```
 
-PingTest will creat a log file containing the results of the "ping" on each host in the host_data.csv file. This file is then automatically emailed as an attachment to the email list in a file called email-list.txt, one email per line. This file can be passed as a command line arguement to ping_amd_send.py eg:   
+PingTest will creat a log file containing the results of the "ping" on each host in the host_data.csv file. This file is then automatically emailed as an attachment to the email list in a file passed as a command line argument, one email per line eg:   
 
 ```
-python ping_and_send.py email-list
+python ping_and_send.py email-list.txt
 ```
 
-If the  email-list.txt file is not provide, ping_and_send.py will use the hard coded default.  
+If the  email-list.txt file is not provided, ping_and_send.py will still run but no emails will be sent.  
 
 Create a Windows task in Task Scheduler to run the task daily at a convenient time. Alternatively simply inport the   
 "Win10-Task-Scheduler_PingTest.xml" file into Windows Task Scheduler.  
-
-
-
-
