@@ -89,19 +89,23 @@ def send_email(subject: str, body: str, sender: str, password: str, recipients: 
     #attachment_filename :str  = "ping-test-results.txt"
 
     msg.attach(MIMEText(body, 'plain'))
-    if attachment_filename:
+    if path.exists(attachment_filename):
+    #if attachment_filename:
         attachment = open(attachment_filename, 'rb')
         part: MIMEBase = MIMEBase('application', 'octet-stream')
         part.set_payload(attachment.read())
         encoders.encode_base64(part)
         part.add_header('Content-Disposition', f"attachment; filename= {attachment_filename}")
         msg.attach(part)
+        attachment.close()
+    else:
+        print("Email attachment file does not exist")
 
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp_server:
        smtp_server.login(sender, password)
        smtp_server.sendmail(sender, recipients, msg.as_string())
     print("Message sent!")
-    attachment.close()
+    
 
 
 def main():
