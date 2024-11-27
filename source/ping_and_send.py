@@ -90,7 +90,6 @@ def send_email(subject: str, body: str, sender: str, password: str, recipients: 
 
     msg.attach(MIMEText(body, 'plain'))
     if path.exists(attachment_filename):
-    #if attachment_filename:
         attachment = open(attachment_filename, 'rb')
         part: MIMEBase = MIMEBase('application', 'octet-stream')
         part.set_payload(attachment.read())
@@ -105,7 +104,7 @@ def send_email(subject: str, body: str, sender: str, password: str, recipients: 
        smtp_server.login(sender, password)
        smtp_server.sendmail(sender, recipients, msg.as_string())
     print("Message sent!")
-    
+
 
 
 def main():
