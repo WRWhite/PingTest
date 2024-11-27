@@ -19,7 +19,7 @@ from email.mime.base import MIMEBase
 from email import encoders
 
 # General modules
-from datetime import datetime, date
+from datetime import datetime
 from os import path, remove
 from sys import argv
 
@@ -47,17 +47,19 @@ def ping (host: list[str], ping_count: int) -> str:
             ping_test: list = findall("TTL", data)
 
         if ping_test:
-            # Plain text output:
+            # Plain text output to results_file:
             #print(f"{ip} \t {host[ip]} \t : Successful Ping", file=results_file)
+             # CSV Output to results_file:
             print(f"{ip},,{host[ip]},,,sucess", file=results_file)
-            # CSV Output
+            # Console output:
             print(f"{ip} \t {host[ip]} \t : Successful Ping")
             sucess_cnt +=1
         else:
-            # Plain text output:
+            # Plain text output to results_file:
             #print(f"{ip} \t {host[ip]} \t : Failed Ping", file=results_file)
+             # CSV Output to results_file::
             print(f"{ip},,{host[ip]},,,failed", file=results_file)
-            # CSV Output:
+            # Console output:
             print(f"{ip} \t {host[ip]} \t : Failed Ping")
             fail_cnt +=1
 
@@ -81,9 +83,9 @@ def send_email(subject: str, body: str, sender: str, password: str, recipients: 
     msg['From'] = sender
     msg['To'] = ', '.join(recipients)
 
-    # CSV test format:
+    # CSV text attachment file:
     attachment_filename :str  = "ping-test-results.csv"
-    # Plain text format:
+    # Plain text attachment file:
     #attachment_filename :str  = "ping-test-results.txt"
 
     msg.attach(MIMEText(body, 'plain'))
