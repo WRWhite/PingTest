@@ -1,5 +1,8 @@
 # Release Notes  
 
+**NEXT**
+* Remove SMTP credentials for source and place in an external file smtp=config.txt
+
 **v3.0**
 * Add the email recipients variable to an external file and pass as a command line argument.
 * If no email recipients file passed on command line PingTest runs but no emails sent

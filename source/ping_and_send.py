@@ -151,13 +151,41 @@ def main():
                 body: str = email_file.read()
                 email_file.close()
                 subject: str = f"Ping Test {status_msg} {datetime.now()}"
-                sender: str = "william.white.directinsight@googlemail.com"
-                password: str = "qwekflvtxxzwmwsg"
+
+                # Read senser (user name and password form smtp-config.txt)
+                
+                # sender: str = "Senser Gmail address / user name"
+                # Gmail application password
+                # password: str = "dummy_passwor"
+
+                if path.exists("smtp-config.txt"):
+                    line_count: int = 0
+                    with open("smtp-config.txt", 'r') as smtp_config_file:
+                        for line in smtp_config_file:
+                            if line.startswith('#') or not(line.strip()):
+                                continue
+                            else:
+                                line = line.strip()
+                                line_count +=1
+                                if line_count == 1:
+                                    sender: str = line
+                                elif line_count == 2:
+                                    password: str = line
+                                else:
+                                    continue                 
+                    
+                else:
+                    print(f"smtp-config.txt file not found")
+                    exit(1)
+
 
                 send_email(subject, body, sender,  password, recipients)
+                print(f"Sender: {sender}")
+                print(f"Password {password}")
         else:
             email_recipient_list_file_found = False
             print(f"Email recipient file <{email_recipient_list_file}> does not exist")
+            print("Interactive mode only")
             
             
     # Delete *email_file* but not the *results_file*
