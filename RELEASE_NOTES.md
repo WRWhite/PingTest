@@ -1,6 +1,6 @@
 # Release Notes  
 
-**NEXT**
+**v4.0**
 * Remove SMTP credentials for source and place in an external file smtp=config.txt
 
 **v3.0**
