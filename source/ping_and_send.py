@@ -26,49 +26,51 @@ from sys import argv
 def ping (host: list[str], ping_count: int) -> str:
 
     # CSV format:
-    results_file = open('ping-test-results.csv','w')
+    # results_file = open('ping-test-results.csv','w')
     # Plain text format:
     #results_file = open('ping-test-results.txt','w')
-    email_file = open('email-msg.txt','w')
+    # email_file = open('email-msg.txt','w')
     #timestamp: datetime = date.today()
     timestamp: datetime = datetime.now()
 
     sucess_cnt: int = 0
     fail_cnt: int = 0
-    # CSV column headings:
-    print(f"IP Address,,Host Name,,,Status", file=results_file)
-    print(f",,", file=results_file)
-    for ip in host:
-        data: str = ""
-        output: str = Popen(f"ping {ip} -n {ping_count}", stdout=PIPE, encoding="utf-8")
+    with open('ping-test-results.csv','w') as results_file:
+        # CSV column headings:
+        print(f"IP Address,,Host Name,,,Status", file=results_file)
+        print(f",,", file=results_file)
+        for ip in host:
+            data: str = ""
+            output: str = Popen(f"ping {ip} -n {ping_count}", stdout=PIPE, encoding="utf-8")
 
-        for line in output.stdout:
-            data = data + line
-            ping_test: list = findall("TTL", data)
+            for line in output.stdout:
+                data = data + line
+                ping_test: list = findall("TTL", data)
 
-        if ping_test:
-            # Plain text output to results_file:
-            #print(f"{ip} \t {host[ip]} \t : Successful Ping", file=results_file)
-             # CSV Output to results_file:
-            print(f"{ip},,{host[ip]},,,sucess", file=results_file)
-            # Console output:
-            print(f"{ip} \t {host[ip]} \t : Successful Ping")
-            sucess_cnt +=1
-        else:
-            # Plain text output to results_file:
-            #print(f"{ip} \t {host[ip]} \t : Failed Ping", file=results_file)
-             # CSV Output to results_file::
-            print(f"{ip},,{host[ip]},,,failed", file=results_file)
-            # Console output:
-            print(f"{ip} \t {host[ip]} \t : Failed Ping")
-            fail_cnt +=1
+            if ping_test:
+                # Plain text output to results_file:
+                #print(f"{ip} \t {host[ip]} \t : Successful Ping", file=results_file)
+                # CSV Output to results_file:
+                print(f"{ip},,{host[ip]},,,sucess", file=results_file)
+                # Console output:
+                print(f"{ip} \t {host[ip]} \t : Successful Ping")
+                sucess_cnt +=1
+            else:
+                # Plain text output to results_file:
+                #print(f"{ip} \t {host[ip]} \t : Failed Ping", file=results_file)
+                # CSV Output to results_file::
+                print(f"{ip},,{host[ip]},,,failed", file=results_file)
+                # Console output:
+                print(f"{ip} \t {host[ip]} \t : Failed Ping")
+                fail_cnt +=1
 
-    print(f"\nTimestamp: {timestamp}", file=results_file)
-    print(f"{fail_cnt} out of {sucess_cnt+fail_cnt} hosts failed to respond to ping", file=email_file )
-    print(f"Timestamp: {timestamp}", file=email_file)
+        print(f"\nTimestamp: {timestamp}", file=results_file)
+        with open('email-msg.txt','w') as email_file:
+            print(f"{fail_cnt} out of {sucess_cnt+fail_cnt} hosts failed to respond to ping", file=email_file )
+            print(f"Timestamp: {timestamp}", file=email_file)
 
-    results_file.close()
-    email_file.close()
+    #results_file.close()
+    #email_file.close()
 
     if fail_cnt > 0: 
         return (" ! <PING TEST FAILED> <PING TEST FAILED> <PING TEST FAILED> !")
@@ -90,13 +92,14 @@ def send_email(subject: str, body: str, sender: str, password: str, recipients: 
 
     msg.attach(MIMEText(body, 'plain'))
     if path.exists(attachment_filename):
-        attachment = open(attachment_filename, 'rb')
+       # attachment = open(attachment_filename, 'rb')
         part: MIMEBase = MIMEBase('application', 'octet-stream')
-        part.set_payload(attachment.read())
-        encoders.encode_base64(part)
-        part.add_header('Content-Disposition', f"attachment; filename= {attachment_filename}")
+        with open(attachment_filename, 'rb') as attachment:
+            part.set_payload(attachment.read())
+            encoders.encode_base64(part)       
+            part.add_header('Content-Disposition', f"attachment; filename= {attachment_filename}")
         msg.attach(part)
-        attachment.close()
+       # attachment.close()
     else:
         print("Email attachment file does not exist")
 
@@ -147,9 +150,14 @@ def main():
 
                 recipients: str = {rows[0] for rows in email_reader} 
                 print(f"Distribution list is: {recipients}")
-                email_file = open('email-msg.txt','r')
-                body: str = email_file.read()
-                email_file.close()
+
+                with open('email-msg.txt','r') as email_file:
+                    body: str = email_file.read()
+
+                # email_file = open('email-msg.txt','r')
+                # body: str = email_file.read()
+                # email_file.close()
+
                 subject: str = f"Ping Test {status_msg} {datetime.now()}"
 
                 # Read senser (user name and password form smtp-config.txt)
