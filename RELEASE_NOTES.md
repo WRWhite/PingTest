@@ -1,5 +1,9 @@
 # Release Notes  
 
+**v4.1**
+* Added a seperate and independent program to ping a single host periodically and record results
+* ping_single_host.py
+
 **v4.0**
 * Remove SMTP credentials for source and place in an external file smtp=config.txt
 
