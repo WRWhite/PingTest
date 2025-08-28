@@ -2,12 +2,22 @@
 
 import os, time, datetime
 
-HOST_NAME = "google.com" # Host to be pinged
+#HOST_NAME = "google.com" # Host to be pinged
 LONG_DELAY = 3  # Delay between sucesfull pings (default = 60)
 SHORT_DELAY = 1 # Delay between failed pings (default = 15)
 PING_SUCESS = 0 
 PING_FAIL = 1
 RESULTS_FILE = 'pingResults.txt'
+
+def ping_test(host1: str, host2: str) -> int:
+    PING_FAIL = 1
+    ping_response = os.system(f"ping -n 3 {host1}")
+    print(datetime.datetime.now()) # Write ping timestamp to console
+    if ping_response == PING_FAIL:
+        ping_response = os.system(f"ping -n 3 {host2}")
+        print(datetime.datetime.now()) # Write ping timestamp to console
+    return ping_response
+
 
 # Open and time stamp results file
 with open(RESULTS_FILE,'a') as results_file:
@@ -15,8 +25,9 @@ with open(RESULTS_FILE,'a') as results_file:
 
 last_ping_status = PING_FAIL
 while True:
-   ping_response = os.system(f"ping -n 1 {HOST_NAME}")
-   print(datetime.datetime.now()) # Write ping timestamp to
+   #ping_response = os.system(f"ping -n 1 {HOST_NAME}")
+   #print(datetime.datetime.now()) # Write ping timestamp to
+   ping_response = ping_test("google.com", "aws.com")
    if ping_response == PING_FAIL: 
    # If ping fails add a time stamp to the file with a note
    # and switch to a finer delay resolution
@@ -24,7 +35,7 @@ while True:
         with open(RESULTS_FILE,'a') as results_file:
             if last_ping_status == PING_SUCESS: # Add a line in results file to indicate end of current failure
                 results_file.write("\n")
-            results_file.write(f"{datetime.datetime.now()} {HOST_NAME} cannot be reached!\n")
+            results_file.write(f"{datetime.datetime.now()} hosts cannot be reached!\n")
         last_ping_status = PING_FAIL
    else:
        delay = LONG_DELAY
