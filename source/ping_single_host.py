@@ -5,8 +5,8 @@ from typing import TextIO
 
 def main() -> None:
 
-    LONG_DELAY: int = 60  # Delay between sucesfull pings (default = 60)
-    SHORT_DELAY: int = 10 # Delay between failed pings (default = 10)
+    LONG_DELAY: int = 6  # Delay between sucesfull pings (default = 60)
+    SHORT_DELAY: int = 1 # Delay between failed pings (default = 10)
     PING_SUCESS: int = 0 
     PING_FAIL: int = 1
     RESULTS_FILE: str = 'pingResults.txt'
@@ -39,13 +39,21 @@ def main() -> None:
 def ping_test(host1: str, host2: str) -> int:
 
     PING_SUCESS = 0
+    PING_FAIL = 1
     ping_response: int = PING_SUCESS
+    ping_response_host1: int = PING_SUCESS
+    ping_response_host2: int = PING_SUCESS
 
-    ping_response = os.system(f"ping -n 3 {host1}")
+    ping_response_host1 = os.system(f"ping -n 3 {host1}")
     print(datetime.datetime.now()) # Write ping timestamp to console
-    if ping_response != PING_SUCESS: # ie ping fails
-        ping_response = os.system(f"ping -n 3 {host2}")
-        print(datetime.datetime.now()) # Write ping timestamp to console
+    ping_response_host2 = os.system(f"ping -n 3 {host2}")
+    print(datetime.datetime.now()) # Write ping timestamp to console
+
+    if (ping_response_host1 != PING_SUCESS) and (ping_response_host2 != PING_SUCESS):
+        ping_response = PING_FAIL
+    else:
+        ping_response = PING_SUCESS    
+       
     return ping_response
 
 
